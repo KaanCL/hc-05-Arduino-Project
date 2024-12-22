@@ -2,6 +2,7 @@
 
 SoftwareSerial BTSerial(10, 11); // RX || TX
 
+
 int gazSensorPin = A0;
 int sensorValue = 0;
 int buzzerPin = 8;
@@ -44,7 +45,7 @@ void loop() {
   }
 
   // Bluetooth modülünden gelen veriyi Serial Monitor'e yazdır
-  if (BTSerial.available()) {
+  
     char gelenVeri = BTSerial.read();   
     if(alarm){
      if (gelenVeri == 's') {
@@ -54,12 +55,11 @@ void loop() {
     }else{stop = false;}
    
     Serial.write(gelenVeri);
-  }
+  
 
   // Serial Monitor üzerinden gelen veriyi Bluetooth modülüne gönder
-  if (Serial.available()) {
-    char gidenVeri = Serial.read();   
-    BTSerial.write(gidenVeri);
-  }
+   String dataToSend = String(sensorValue) + "\n";
+   BTSerial.write(dataToSend.c_str());
+
 
 }
